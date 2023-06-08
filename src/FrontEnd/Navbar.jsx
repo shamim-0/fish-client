@@ -26,17 +26,17 @@ const Navbar =  () => {
 
 
 
-    // if(user ){
-       
-    // }
+    if(user?.email){
+        const url = `http://localhost:5000/user-email?email=${user?.email}`
+        fetch(url)
+        .then(res=> res.json())
+        .then(data => setCorrentUser(data))
+    }
 
 
-    useEffect(()=>{
-    const url = `http://localhost:5000/user_email?email=${user?.email}`
-       fetch(url)
-       .then(res=> res.json())
-       .then(data => setCorrentUser(data))
-    },[user?.email])
+    // useEffect(()=>{
+
+    // },[user?.email])
 
 
        
@@ -131,7 +131,7 @@ const Navbar =  () => {
                                     }
 
                                    <div className='flex gap-2 items-center justify-center'>
-                                   <button className='bg-gradient-to-r from-green-500 to-teal-500 text-white  block font-bold px-5 rounded-sm my-3 py-2'>Edit</button>
+                                   <button className='bg-gradient-to-r from-green-500 to-teal-500 text-white  block font-bold px-5 rounded-sm my-3 py-2'>View</button>
                                     {
                                          user ? <button onClick={async () => {
                                             const success = await signOut();
