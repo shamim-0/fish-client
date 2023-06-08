@@ -7,7 +7,7 @@ import Loading from '../Auth/Loading/Loading';
 import { useSignOut } from 'react-firebase-hooks/auth';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import fisherman from '../assets/fisherman.png'
-import axios from 'axios';
+import placeholder from '../assets/placeholder.png';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 
@@ -26,12 +26,17 @@ const Navbar =  () => {
 
 
 
-    if(user ){
-       const url = `http://localhost:5000/user_email?email=${user?.email}`
+    // if(user ){
+       
+    // }
+
+
+    useEffect(()=>{
+    const url = `http://localhost:5000/user_email?email=${user?.email}`
        fetch(url)
        .then(res=> res.json())
        .then(data => setCorrentUser(data))
-    }
+    },[user?.email])
 
 
        
@@ -40,7 +45,7 @@ const Navbar =  () => {
         return <Loading></Loading>
     }
 
-    console.log('user', correntUser);
+
 
 
     
@@ -106,15 +111,15 @@ const Navbar =  () => {
                                         setProfile(!profile)
                                     }
                                 }} type="button">
-                                    <img className='h-14 w-14 rounded-full' src={correntUser.photo ? 'https://'+correntUser.photo  : 'https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000'} alt="" />
+                                    <img className='h-14 w-14 rounded-full' src={correntUser.photo ? 'https://'+correntUser.photo  : placeholder} alt="" />
                                 </button>
                             </div>
 
 
                             <div className={` ${profile ? '' : 'hidden'} absolute p-2 text-center right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`} role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
                                 <div className="py-1" role="none">
-                                    <img className='h-14 w-14 mx-auto  mt-5 rounded-full' src={correntUser.photo ? 'https://'+correntUser.photo : 'https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?w=2000'} alt="" />
-                                    <Link to={`/edit:/${correntUser._id}`}>
+                                    <img className='h-14 w-14 mx-auto  mt-5 rounded-full' src={correntUser.photo ? 'https://'+correntUser.photo : placeholder} alt="" />
+                                    <Link to={`/edit/${correntUser._id}`}>
                                     <ModeEditIcon className='bg-green-500 h-10 w-10 rounded-full  p-1 mt-[-15px]'></ModeEditIcon>
                                     </Link>
                                     {

@@ -26,7 +26,7 @@ const Dashboard = () => {
                 </ul>
                 <ul className='rounded'>
                     <li className='flex justify-start items-center  text-gray-100 px-5 hover:bg-[#324970] py-3 gap-3'><SetMealIcon className='' /> Fish</li>
-                    <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/create-event'><TripOriginIcon className='mini-icon' /> Create Event </Link>
+                    <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/add-fish'><TripOriginIcon className='mini-icon' />Add Fish</Link>
                     <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/shboard/create-event'><TripOriginIcon className='mini-icon' /> Event  Category</Link>
                     <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/create-event'> <TripOriginIcon className='mini-icon' />Order</Link>
                 </ul>

@@ -18,6 +18,7 @@ import Loading from './Auth/Loading/Loading';
 import UserList from './Dashboard/UserList';
 import SingleViewUser from './User/SingleViewUser';
 import UserProfile from './Dashboard/UserProfile';
+import AddFish from './Dashboard/AddFish';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
           <Route path='/dashboard/create-event' element={<CreateEvent/>}></Route>
           <Route path='/dashboard/create-venue' element={<CreateVenue/>}></Route>
           <Route path='/dashboard/list-user' element={<UserList/>}></Route>
+          <Route path='/dashboard/add-fish' element={<AddFish/>}></Route>
         </Route>
         <Route path='*' element={<NotFound/>}></Route>
       </Routes>
