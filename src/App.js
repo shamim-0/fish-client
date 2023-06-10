@@ -6,7 +6,6 @@ import NotFound from './FrontEnd/NotFound';
 import Dashboard from './Dashboard/Dashboard';
 import DashboardHome from './Dashboard/DashboardHome';
 import ListEvent from './Dashboard/ListEvent';
-import EventCategory from './Dashboard/EventCategory';
 import Order from './Dashboard/Order';
 import CreateEvent from './Dashboard/CreateEvent';
 import CreateVenue from './Dashboard/CreateVanue';
@@ -19,6 +18,9 @@ import UserList from './Dashboard/UserList';
 import SingleViewUser from './User/SingleViewUser';
 import UserProfile from './Dashboard/UserProfile';
 import AddFish from './Dashboard/AddFish';
+import AddVenueCategory from './Dashboard/AddVenueCategory';
+import AddVenueSubCategory from './Dashboard/AddVenueSubCategory';
+import VenueList from './Dashboard/VenueList';
 
 function App() {
   return (
@@ -39,10 +41,12 @@ function App() {
           <Route path='/dashboard/' element={<DashboardHome/>}></Route>
           <Route path='/dashboard/list-event' element={<ListEvent/>}></Route>
           <Route path='/dashboard/my-profile' element={<UserProfile/>}></Route>
-          <Route path='/dashboard/event-category' element={<EventCategory/>}></Route>
           <Route path='/dashboard/order' element={<Order/>}></Route>
           <Route path='/dashboard/create-event' element={<CreateEvent/>}></Route>
           <Route path='/dashboard/create-venue' element={<CreateVenue/>}></Route>
+          <Route path='/dashboard/add-venue-category' element={<AddVenueCategory/>}></Route>
+          <Route path='/dashboard/add-venue-sub-category' element={<AddVenueSubCategory/>}></Route>
+          <Route path='/dashboard/venue-list' element={<VenueList/>}></Route>
           <Route path='/dashboard/list-user' element={<UserList/>}></Route>
           <Route path='/dashboard/add-fish' element={<AddFish/>}></Route>
         </Route>

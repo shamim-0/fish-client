@@ -2,14 +2,43 @@ import React, { useEffect, useState } from 'react';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import CheckIcon from '@mui/icons-material/Check';
 import AddIcon from '@mui/icons-material/Add';
+import DataLoad from '../DataLoad/DataLoad';
+import { toast } from 'react-toastify';
 
 
 const CreateVenue = () => {
     const [tab, setTab] = useState(1);
     const [fish, setFish] = useState([]);
+    const [category, setCategory] = useState([]);
+    const [categorySub, setSubCategory] = useState([]);
     const [fish_chart, setFish_chart] = useState([]);
     const [allFishWeight, setAllFishWeight] = useState(0)
-    const [allFishprice, setAllFishprice] = useState(0)
+    const [allFishprice, setAllFishprice] = useState(0);
+    const [load, setLoad] = useState(false);
+    const [fishingDay, setFishingDay] = useState([]);
+
+    const [imgdata, setImgData] = useState([]);
+
+
+
+
+
+
+
+
+    useEffect(() => {
+        fetch('http://localhost:5000/venue-category-get')
+            .then(res => res.json())
+            .then(data => setCategory(data))
+    }, [])
+
+
+    useEffect(() => {
+        fetch('http://localhost:5000/venue-sub-category-get')
+            .then(res => res.json())
+            .then(data => setSubCategory(data))
+    }, [])
+
 
     const handleAddFish = () => {
         const fish_name = document.getElementById('fish_name').value;
@@ -46,55 +75,130 @@ const CreateVenue = () => {
 
 
 
+    const handleUploadImg = () => {
+        const image_file = document.getElementById('image_file').files[0];
+        if (image_file) {
+            var formData = new FormData();
+            formData.append("file", image_file);
+
+            fetch("https://upload.rainbosoft.com/", {
+                method: "POST",
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => setImgData(prevFishChart => [...prevFishChart, data.url]))
+        }
+    }
+
+
+    console.log(imgdata)
+
+
 
 
 
     const handleAddVanue = () => {
+        setLoad(true);
         const eventTitle = document.getElementById('event_title').value;
         const category = document.getElementById('category').value;
         const subCategory = document.getElementById('sub_category').value;
         const imageFile = document.getElementById('image_file').files[0];
-        const videoFile = document.getElementById('video_file').files[0];
+        const videoFile = document.getElementById('video_file').files[0];;
         const eventDescription = document.getElementById('event_description').value;
         const mapLink = document.getElementById('map_link').value;
         const address = document.getElementById('address').value;
         const targetFish = document.getElementById('targetFish').value;
-        const dayOfFishing = parseInt(document.getElementById('day_of_fishing').value);
         const startTime = document.getElementById('start_time').value;
         const endTime = document.getElementById('end_time').value;
         const totalSeat = parseInt(document.getElementById('total_seat').value);
         const waterLabel = parseInt(document.getElementById('water_label').value);
         const gapBetweenSeats = parseInt(document.getElementById('gap_between_seats').value);
         const contactNumber = document.getElementById('contact_number').value;
+        const how_to_go = document.getElementById('how_to_go').value;
+        const build_by = document.getElementById('build_by').value;
+        const aria_Length_in_Meter = document.getElementById('aria_Length_in_Meter').value;
+        const aria_Wide_in_Meter = document.getElementById('aria_Wide_in_Meter').value;
+        const total_Area = document.getElementById('total_Area').value;
+
+        const time = Date.now();
+        const status = 'pending';
+
+        var formData = new FormData();
+        formData.append("file", videoFile);
+
+        fetch("https://upload.rainbosoft.com/", {
+            method: "POST",
+            body: formData
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.url) {
+                    const video = data.url;
+                    const venueData = {
+                        eventTitle,
+                        category,
+                        subCategory,
+                        eventDescription,
+                        mapLink,
+                        address,
+                        targetFish,
+                        startTime,
+                        endTime,
+                        totalSeat,
+                        waterLabel,
+                        gapBetweenSeats,
+                        contactNumber,
+                        fish_chart,
+                        allFishWeight,
+                        allFishprice,
+                        imgdata,
+                        video,
+                        status,
+                        how_to_go,
+                        time,
+                        build_by,
+                        aria_Length_in_Meter,
+                        aria_Wide_in_Meter,
+                        total_Area,
+                        fishingDay
+                    };
 
 
+                    fetch('http://localhost:5000/venue', {
+                        method: "POST",
+                        headers: {
+                            'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(venueData)
+                    })
+                        .then(res => res.json())
+                        .then(data => console.log(data));
+                    }
+                })
 
-
-        const venueData = {
-            eventTitle,
-            category,
-            subCategory,
-            imageFile,
-            videoFile,
-            eventDescription,
-            mapLink,
-            address,
-            targetFish,
-            dayOfFishing,
-            startTime,
-            endTime,
-            totalSeat,
-            waterLabel,
-            gapBetweenSeats,
-            contactNumber,
-            fish_chart
-        };
-
-
-        console.log(venueData)
-
+        setLoad(false);
     }
 
+
+    const handleSelect = () => {
+        const day = document.getElementById('day_of_fishing').value;
+        const index = fishingDay.indexOf(day)
+        if (index === -1) {
+            setFishingDay(prevFishChart => [...prevFishChart, day]);
+        } else {
+            toast.warning('Already Added')
+        }
+        console.log(index)
+    }
+
+    // console.log(fishingDay)
+
+
+
+
+    if (load) {
+        return <DataLoad />
+    }
 
 
 
@@ -104,7 +208,7 @@ const CreateVenue = () => {
                 {tab === 1 ? 'Venue Information' : ''}
                 {tab === 2 ? 'Venue Place & Time' : ''}
                 {tab === 3 ? 'Venue Information' : ''}
-                {tab === 4 ? 'Venue Term' : ''}
+                {tab === 4 ? 'Venue Feature' : ''}
                 {tab === 5 ? 'Fish Calculation' : ''}
             </h2>
 
@@ -139,15 +243,29 @@ const CreateVenue = () => {
             {/* tab 1  */}
             <div className={`${tab === 1 ? 'block' : 'hidden'}`}>
                 <div className='mt-10 gap-10'>
-                    <input type="text" id='event_title' className="py-2 px-3  mb-3 focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800" placeholder="Event Title " />
+                    <input type="text" id='event_title' className="py-2 px-3  mb-3 focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800" placeholder="Venue Title " />
                     <select name="" id="category" className="py-2 px-3  mt-3 focus:outline-0 w-full bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title">
                         <option value="">---select category---</option>
+                        {
+                            category.map(cate => <option>{cate.name}</option>)
+                        }
                     </select>
                     <select name="" id="sub_category" className="py-2 px-3  mt-3 focus:outline-0 w-full bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title">
                         <option value="">---select sub category---</option>
+                        {
+                            categorySub.map(cate => <option>{cate.name}</option>)
+                        }
                     </select>
-                    <p className='text-blue-950 mt-4'>Upload Image</p>
-                    <input type="file" id='image_file' className='py-2 px-3  mt-1 focus:outline-0 w-full bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title' />
+                    <p className='text-blue-950 my-4'>Upload Image</p>
+                    <div className='my-5 flex items-center gap-4'>
+                        {
+                            imgdata.map(img => <img className='h-24 w-40 rounded-md' src={'https://' + img} alt='' />)
+                        }
+                    </div>
+                    <label className='h-24 rounded-xl w-28 shadow-xl' htmlFor="image_file">
+                        <img className='overflow-hidden h-24 rounded-xl border-4 border-slate-300 shadow-xl' src="https://unper.ac.id/wp-content/plugins/tutor/assets/images/placeholder-.jpg" alt="" />
+                        <input hidden multiple onChange={handleUploadImg} type="file" id='image_file' className='py-2 px-3  mt-1 focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title w-28' />
+                    </label>
                     <p className='text-blue-950 mt-4'>Upload Video</p>
                     <input type="file" id='video_file' className='py-2 px-3  mt-1 focus:outline-0 w-full bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title' />
 
@@ -167,6 +285,9 @@ const CreateVenue = () => {
                     <textarea id='event_description' className='h-24 w-full mt-5 py-1 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded shadow  border placeholder:title' placeholder='Event Description'></textarea>
                     <input type="text" id='map_link' placeholder='Google map iframe Link' className='w-full mt-5 py-2 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title' />
                     <input type="text" id='address' placeholder='Address [Full address]' className='w-full mt-5 py-2 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title' />
+                    <input type="text" id='how_to_go' placeholder='How to go' className='w-full mt-5 py-2 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title' />
+
+
                 </div>
                 <div className='text-end '>
                     <button onClick={() => setTab(1)} className=' bg-gradient-to-t from-orange-500 to-[#d10b0b] mx-2  px-4 py-2 rounded-sm  mt-5  text-white'>Prv <ArrowForwardIcon className='text-white' /> </button>
@@ -187,7 +308,23 @@ const CreateVenue = () => {
                             })
                         }
                     </select>
-                    <input type="number" id='day_of_fishing' className='py-2 px-3  focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800' placeholder='Day of Fishing' />
+                    <div>
+                        <div className='flex gap-2 my-1'>
+                            {
+                                fishingDay.map(day => <button className='bg-green-400 text-white text-xs px-2 rounded-lg'>{day}</button>)
+                            }
+                        </div>
+                        <select onChange={handleSelect} id='day_of_fishing' className='py-2 px-3  focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800'>
+                            <option value="Monday" disabled selected>--select day of fishing--</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+                    </div>
                 </div>
                 <div className='w-full grid lg:grid-cols-2 grid-cols-1 gap-5'>
 
@@ -214,6 +351,20 @@ const CreateVenue = () => {
                     <input type="number" id='water_label' className='py-2 px-3  mt-3 focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800' placeholder='Water label (Foot)' />
                     <input type="number" id='gap_between_seats' className='py-2 px-3  mt-3 focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800' placeholder='Gap between seat to seat (foot)' />
                     <input type="number" id='contact_number' className='py-2 px-3  mt-3 focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800' placeholder='Contact Number' />
+                    <select id="build_by" className='py-2 px-3  mt-3 focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800'>
+                        <option value="null" selected disabled>--select build by --</option>
+                        <option value="Wood and Bamboo">Wood and Bamboo</option>
+                        <option value="Wood and Bamboo">Wood and Bamboo</option>
+                        <option value="On pond edge">On pond edge</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                </div>
+                <div className='mt-10'>
+                    <p>Fishery Area</p>
+                    <input type="number" id='aria_Length_in_Meter' className='py-2 px-3  mt-3  focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800' placeholder=' Length in Meter' />
+                    <input type="number" id='aria_Wide_in_Meter' className='py-2 px-3  mt-3  focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800' placeholder='Wide in Meter' />
+                    <input type="number" id='total_Area' className='py-2 px-3  mt-3  focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800' placeholder='Total Area( LxW)' />
                 </div>
                 <div className='text-end '>
                     <button onClick={() => setTab(3)} className='bg-gradient-to-t from-orange-500 to-[#d10b0b] mx-2  px-4 py-2 rounded-sm  mt-5  text-white'>Prv <ArrowForwardIcon className='text-white' /> </button>

@@ -26,17 +26,18 @@ const Navbar =  () => {
 
 
 
-    if(user?.email){
-        const url = `http://localhost:5000/user-email?email=${user?.email}`
+    // if(user?.email){
+       
+    // }
+
+
+    useEffect(()=>{
+        const url = `http://localhost:5000/user-email?email=rainbosoft@gmail.com`
+        // const url = `http://localhost:5000/user-email?email=${user?.email}`
         fetch(url)
         .then(res=> res.json())
         .then(data => setCorrentUser(data))
-    }
-
-
-    // useEffect(()=>{
-
-    // },[user?.email])
+    },[])
 
 
        

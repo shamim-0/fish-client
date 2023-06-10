@@ -2,7 +2,7 @@ import { Label } from '@mui/icons-material';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-const EventCategory = () => {
+const AddVenueCategory = () => {
 
 
     const [category , setCategory] = useState([])
@@ -24,7 +24,7 @@ const EventCategory = () => {
             .then(res => res.json())
             .then(data => {
                 if(data){
-                    toast.success('Event Added Successful')
+                    toast.success('Category  Added Successful')
                     e.target.reset()
                 }
             })
@@ -92,4 +92,4 @@ const EventCategory = () => {
     );
 };
 
-export default EventCategory;
+export default AddVenueCategory;

@@ -21,7 +21,7 @@ const Update = () => {
     const handleUpdate = (e) => {
         setLoad(true)
         e.preventDefault();
-        const name = Date.now()
+        const time = Date.now()
         var file = e.target.photo.files[0];
         var formData = new FormData();
         formData.append("file", file);
@@ -49,10 +49,10 @@ const Update = () => {
                 const ec_relation = e.target.ec_relation.value;
                 const ec_phone = e.target.ec_phone.value;
                 const ec_address = e.target.ec_address.value;
-                const balancce_bdt = 0;
+                const balance_bdt = 0;
 
 
-                const info = { email, name, phone, photo, address, role, birth, interest, Award, status , bio , Batch_tag, ec_name , ec_relation, ec_phone, ec_address}
+                const info = { email, name, phone, photo, address, role, birth, interest, Award, status , bio , Batch_tag, ec_name , ec_relation, ec_phone, ec_address, balance_bdt, time}
                 fetch('http://localhost:5000/user', {
                     method: "POST",
                     headers: {

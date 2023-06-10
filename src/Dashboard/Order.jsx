@@ -1,9 +1,10 @@
 import React from 'react';
+import DataLoad from '../DataLoad/DataLoad';
 
 const Order = () => {
     return (
         <div>
-            this is order page
+            <DataLoad/>
         </div>
     );
 };
