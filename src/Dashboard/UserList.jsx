@@ -25,15 +25,15 @@ const UserList = () => {
                         <table className="w-full whitespace-nowrap border p-3">
                             <tbody>
                                 <tr tabindex="0" className="focus:outline-none h-12 mb-2 border border-gray-100 text-sm font-semibold rounded w-full text-gray-600 px-3">
-                                    <td>#</td>
-                                    <td>Name</td>
-                                    <td>Email</td>
-                                    <td>Phone</td>
-                                    <td>Address</td>
-                                    <td>Photo</td>
-                                    <td>Role</td>
-                                    <td>Edit</td>
-                                    <td>Delete</td>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Photo</th>
+                                    <th>Role</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
                                 </tr>
                                 {
                                     user.map(users=> {

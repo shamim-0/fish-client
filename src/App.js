@@ -21,6 +21,7 @@ import AddFish from './Dashboard/AddFish';
 import AddVenueCategory from './Dashboard/AddVenueCategory';
 import AddVenueSubCategory from './Dashboard/AddVenueSubCategory';
 import VenueList from './Dashboard/VenueList';
+import SingleVenue from './Dashboard/SingleVenue';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
 
 
         <Route path='/dashboard/list-user/user/:_id' element={<SingleViewUser/>}></Route>
+        <Route path='/dashboard/venue/:_id' element={<SingleVenue/>}></Route>
 
 
         <Route path='/dashboard' element={<Dashboard/>}>

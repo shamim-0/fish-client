@@ -84,3 +84,46 @@ th {
   background-color: #132946;
   color: white;
 }
+
+
+
+
+
+/* service  */
+
+.info_item {
+  width: 350px;
+  height: 40px;
+  /* background-color: bisque; */
+  display: flex;
+  /* flex-wrap: wrap; */
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: 4rem;
+  border-top-left-radius: 0%;
+  color: rgb(0, 0, 0);
+  position: relative;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.info_item_img {
+  background-color: antiquewhite;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: absolute;
+  left: 0%;
+  border-radius: 100%;
+  border-top-left-radius: 0%;
+  background-color: rgb(19, 3, 79);
+  color: rgb(255, 255, 255);
+  padding: .5rem;
+}
+
+.info_item_content span{
+  font-size: 14px;
+  margin-left: 20px;
+}

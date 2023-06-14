@@ -38,8 +38,8 @@ const Dashboard = () => {
                 <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/add-venue-sub-category'> <TripOriginIcon className='mini-icon' /> Add sub category</Link>
                 </ul>
                 <ul className=''>
-                <li className='flex justify-start items-center t text-gray-100 px-5 hover:bg-[#324970] py-3 gap-3'><PeopleIcon className='' />User</li>
-                <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/list-user'> <TripOriginIcon className='mini-icon' />User List</Link>
+                <li className='flex justify-start items-center t text-gray-100 px-5 hover:bg-[#324970] py-3 gap-3'><PeopleIcon className='' />Angler</li>
+                <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/list-user'> <TripOriginIcon className='mini-icon' />Angler List</Link>
                 </ul>
 
             </div>

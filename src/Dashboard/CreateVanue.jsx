@@ -4,6 +4,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import AddIcon from '@mui/icons-material/Add';
 import DataLoad from '../DataLoad/DataLoad';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 
 const CreateVenue = () => {
@@ -16,7 +17,7 @@ const CreateVenue = () => {
     const [allFishprice, setAllFishprice] = useState(0);
     const [load, setLoad] = useState(false);
     const [fishingDay, setFishingDay] = useState([]);
-
+    const navigate = useNavigate();
     const [imgdata, setImgData] = useState([]);
 
 
@@ -91,6 +92,11 @@ const CreateVenue = () => {
     }
 
 
+
+    const removeImgData = (dayName) => {
+        setImgData(prevData => prevData.filter(day => day !== dayName));
+      };
+
     console.log(imgdata)
 
 
@@ -119,6 +125,8 @@ const CreateVenue = () => {
         const aria_Length_in_Meter = document.getElementById('aria_Length_in_Meter').value;
         const aria_Wide_in_Meter = document.getElementById('aria_Wide_in_Meter').value;
         const total_Area = document.getElementById('total_Area').value;
+        const districtSelect = document.getElementById('districtSelect').value;
+        const divisionSelect = document.getElementById('divisionSelect').value;
 
         const time = Date.now();
         const status = 'pending';
@@ -132,6 +140,7 @@ const CreateVenue = () => {
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 if (data.url) {
                     const video = data.url;
                     const venueData = {
@@ -160,7 +169,9 @@ const CreateVenue = () => {
                         aria_Length_in_Meter,
                         aria_Wide_in_Meter,
                         total_Area,
-                        fishingDay
+                        fishingDay,
+                        districtSelect,
+                        divisionSelect
                     };
 
 
@@ -172,9 +183,14 @@ const CreateVenue = () => {
                         body: JSON.stringify(venueData)
                     })
                         .then(res => res.json())
-                        .then(data => console.log(data));
-                    }
-                })
+                        .then(data => {
+                            if(data){
+                                toast.success('Venue Added Successful')
+                                navigate('/dashboard/venue-list')
+                            }
+                        });
+                }
+            })
 
         setLoad(false);
     }
@@ -190,6 +206,10 @@ const CreateVenue = () => {
         }
         console.log(index)
     }
+
+    const removeDay = (dayName) => {
+        setFishingDay(prevData => prevData.filter(day => day !== dayName));
+      };
 
     // console.log(fishingDay)
 
@@ -259,7 +279,10 @@ const CreateVenue = () => {
                     <p className='text-blue-950 my-4'>Upload Image</p>
                     <div className='my-5 flex items-center gap-4'>
                         {
-                            imgdata.map(img => <img className='h-24 w-40 rounded-md' src={'https://' + img} alt='' />)
+                            imgdata.map(img => <div>
+                                <button onClick={()=>removeImgData(img)} className='bg-red-200 w-6 h-6 rounded-full'>X</button>
+                                <img className='h-24 w-40 rounded-md' src={'https://' + img} alt='' /> 
+                                </div>)
                         }
                     </div>
                     <label className='h-24 rounded-xl w-28 shadow-xl' htmlFor="image_file">
@@ -284,7 +307,89 @@ const CreateVenue = () => {
                 <div className=''>
                     <textarea id='event_description' className='h-24 w-full mt-5 py-1 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded shadow  border placeholder:title' placeholder='Event Description'></textarea>
                     <input type="text" id='map_link' placeholder='Google map iframe Link' className='w-full mt-5 py-2 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title' />
-                    <input type="text" id='address' placeholder='Address [Full address]' className='w-full mt-5 py-2 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title' />
+                    <input type="text" id='address' placeholder='Address [Postal address]' className='w-full mt-5 py-2 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title' />
+                    <select id="divisionSelect"  className='w-full mt-5 py-2 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title'>
+                        <option value="">Select Division</option>
+                        <option value="Barisal">Barisal</option>
+                        <option value="Chittagong">Chittagong</option>
+                        <option value="Dhaka">Dhaka</option>
+                        <option value="Khulna">Khulna</option>
+                        <option value="Mymensingh">Mymensingh</option>
+                        <option value="Rajshahi">Rajshahi</option>
+                        <option value="Rangpur">Rangpur</option>
+                        <option value="Sylhet">Sylhet</option>
+                    </select>
+
+                    <select id="districtSelect"  className='w-full mt-5 py-2 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title'>
+                        <option value="">Select District</option>
+                        <option value="Bagerhat">Bagerhat</option>
+                        <option value="Bandarban">Bandarban</option>
+                        <option value="Barguna">Barguna</option>
+                        <option value="Barisal">Barisal</option>
+                        <option value="Bhola">Bhola</option>
+                        <option value="Bogra">Bogra</option>
+                        <option value="Brahmanbaria">Brahmanbaria</option>
+                        <option value="Chandpur">Chandpur</option>
+                        <option value="Chapai Nawabganj">Chapai Nawabganj</option>
+                        <option value="Chittagong">Chittagong</option>
+                        <option value="Chuadanga">Chuadanga</option>
+                        <option value="Comilla">Comilla</option>
+                        <option value="Cox's Bazar">Cox's Bazar</option>
+                        <option value="Dhaka">Dhaka</option>
+                        <option value="Dinajpur">Dinajpur</option>
+                        <option value="Faridpur">Faridpur</option>
+                        <option value="Feni">Feni</option>
+                        <option value="Gaibandha">Gaibandha</option>
+                        <option value="Gazipur">Gazipur</option>
+                        <option value="Gopalganj">Gopalganj</option>
+                        <option value="Habiganj">Habiganj</option>
+                        <option value="Jamalpur">Jamalpur</option>
+                        <option value="Jessore">Jessore</option>
+                        <option value="Jhalokati">Jhalokati</option>
+                        <option value="Jhenaidah">Jhenaidah</option>
+                        <option value="Joypurhat">Joypurhat</option>
+                        <option value="Khagrachhari">Khagrachhari</option>
+                        <option value="Khulna">Khulna</option>
+                        <option value="Kishoreganj">Kishoreganj</option>
+                        <option value="Kurigram">Kurigram</option>
+                        <option value="Kushtia">Kushtia</option>
+                        <option value="Lakshmipur">Lakshmipur</option>
+                        <option value="Lalmonirhat">Lalmonirhat</option>
+                        <option value="Madaripur">Madaripur</option>
+                        <option value="Magura">Magura</option>
+                        <option value="Manikganj">Manikganj</option>
+                        <option value="Meherpur">Meherpur</option>
+                        <option value="Moulvibazar">Moulvibazar</option>
+                        <option value="Munshiganj">Munshiganj</option>
+                        <option value="Mymensingh">Mymensingh</option>
+                        <option value="Naogaon">Naogaon</option>
+                        <option value="Narail">Narail</option>
+                        <option value="Narayanganj">Narayanganj</option>
+                        <option value="Narsingdi">Narsingdi</option>
+                        <option value="Natore">Natore</option>
+                        <option value="Nawabganj">Nawabganj</option>
+                        <option value="Netrakona">Netrakona</option>
+                        <option value="Nilphamari">Nilphamari</option>
+                        <option value="Noakhali">Noakhali</option>
+                        <option value="Pabna">Pabna</option>
+                        <option value="Panchagarh">Panchagarh</option>
+                        <option value="Patuakhali">Patuakhali</option>
+                        <option value="Pirojpur">Pirojpur</option>
+                        <option value="Rajbari">Rajbari</option>
+                        <option value="Rajshahi">Rajshahi</option>
+                        <option value="Rangamati">Rangamati</option>
+                        <option value="Rangpur">Rangpur</option>
+                        <option value="Satkhira">Satkhira</option>
+                        <option value="Shariatpur">Shariatpur</option>
+                        <option value="Sherpur">Sherpur</option>
+                        <option value="Sirajganj">Sirajganj</option>
+                        <option value="Sunamganj">Sunamganj</option>
+                        <option value="Sylhet">Sylhet</option>
+                        <option value="Tangail">Tangail</option>
+                        <option value="Thakurgaon">Thakurgaon</option>
+                    </select>
+
+
                     <input type="text" id='how_to_go' placeholder='How to go' className='w-full mt-5 py-2 px-3   focus:outline-0 bg-white  placeholder:text-stone-800 border-slate-200 rounded-sm shadow  border placeholder:title' />
 
 
@@ -309,9 +414,9 @@ const CreateVenue = () => {
                         }
                     </select>
                     <div>
-                        <div className='flex gap-2 my-1'>
+                        <div className='flex flex-wrap gap-2 my-1'>
                             {
-                                fishingDay.map(day => <button className='bg-green-400 text-white text-xs px-2 rounded-lg'>{day}</button>)
+                                fishingDay.map(day => <button className='bg-gray-200 text-blue-900 text-xs px-2 rounded-lg'>{day}<button onClick={()=> removeDay(day)} className='bg-red-300  rounded-full h-4 w-4 ml-2'>X</button></button>)
                             }
                         </div>
                         <select onChange={handleSelect} id='day_of_fishing' className='py-2 px-3  focus:outline-0 w-full bg-white  border-slate-200 rounded-sm shadow  border placeholder:text-stone-800'>
@@ -449,3 +554,8 @@ const CreateVenue = () => {
 };
 
 export default CreateVenue;
+
+
+
+
+
