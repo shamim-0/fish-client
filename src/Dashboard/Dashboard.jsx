@@ -33,14 +33,23 @@ const Dashboard = () => {
                 <ul className=''>
                 <li className='flex justify-start items-center  text-gray-100 px-5 hover:bg-[#324970] py-3 gap-3'><HvacIcon className='' /> Venue</li>
                 <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/create-venue'> <TripOriginIcon className='mini-icon' /> Add Venue</Link>
-                <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/venue-list'> <TripOriginIcon className='mini-icon' />Venue List</Link>
+                <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/venue-list'> <TripOriginIcon className='mini-icon' /> Venue List</Link>
                 <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/add-venue-category'> <TripOriginIcon className='mini-icon' /> Add category</Link>
                 <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/add-venue-sub-category'> <TripOriginIcon className='mini-icon' /> Add sub category</Link>
+                <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/test-venue-request'> <TripOriginIcon className='mini-icon' /> Venue Test Request</Link>
                 </ul>
                 <ul className=''>
                 <li className='flex justify-start items-center t text-gray-100 px-5 hover:bg-[#324970] py-3 gap-3'><PeopleIcon className='' />Angler</li>
-                <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/list-user'> <TripOriginIcon className='mini-icon' />Angler List</Link>
+                <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/list-user'> <TripOriginIcon className='mini-icon' /> Angler List</Link>
                 </ul>
+                <ul className=''>
+                <li className='flex justify-start items-center t text-gray-100 px-5 hover:bg-[#324970] py-3 gap-3'><PeopleIcon className='' />Blogs</li>
+                <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/game-fish'> <TripOriginIcon className='mini-icon' /> Game Fish</Link>
+                <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/game-fish-category'> <TripOriginIcon className='mini-icon' /> Game Category</Link>
+                <Link className='flex justify-start items-center py-3 text-gray-100 px-5 hover:bg-[#324970] ' to='/dashboard/view-game-fish'> <TripOriginIcon className='mini-icon' /> View Game Fish</Link>
+                </ul>
+
+
 
             </div>
 

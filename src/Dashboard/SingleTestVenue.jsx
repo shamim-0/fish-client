@@ -3,25 +3,48 @@ import { useParams } from 'react-router-dom';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
 
 import Poster from '../assets/porter.jpg'
+import { toast } from 'react-toastify';
 
-const SingleVenue = () => {
+const SingleTestVenue = () => {
 
     const { _id } = useParams();
     const [venue, setVenue] = useState({});
     const [viewImg, setViewImg] = useState('');
+    const [modal, setModal] = useState('hidden');
 
 
-    useEffect(() => {
-        const url = `http://localhost:5000/single-venue?_id=${_id}`
-        fetch(url)
+
+
+
+
+
+
+
+    const reject = () => {
+
+        const message = document.getElementById('message').value;
+
+        const url = `http://localhost:5000/test-venue?_id=${_id}&status=Rejeceted`;
+        fetch(url, {
+            method: "PUT",
+            headers : {
+                'content-type': 'application/json'
+            },
+            body : JSON.stringify({message})
+        })
             .then(res => res.json())
             .then(data => {
-                setVenue(data);
-                setViewImg(data.imgdata[0])
+                if(data){
+                    toast.success('Rejected This venue')
+                    setModal('hidden')
+                }
             })
-    }, [])
+        console.log(url);
+    }
 
 
 
@@ -54,16 +77,28 @@ const SingleVenue = () => {
     console.log(timeAgo);
 
 
-const testFishing = ()=>{
-    const url = `http://localhost:5000/test-venue?_id=${_id}&status=Applied%20For%20Tasting`;
-    fetch(url, {
-        method: "PUT",
-    })
-    .then(res=> res.json())
-    .then(data=> console.log(data))
-    console.log(url);
-}
+    const testFishing = () => {
+        const url = `http://localhost:5000/test-venue?_id=${_id}&status=Testing`
+        fetch(url, {
+            method: "PUT",
+        })
+            .then(res => res.json())
+            .then(data => {
+                toast.success('Accepted And available for Testing')
+            })
+        console.log(url);
+    }
+    
 
+    useEffect(() => {
+        const url = `http://localhost:5000/single-venue?_id=${_id}`
+        fetch(url)
+            .then(res => res.json())
+            .then(data => {
+                setVenue(data);
+                setViewImg(data.imgdata[0])
+            })
+    }, [testFishing, reject])
 
     return (
         <main>
@@ -75,7 +110,7 @@ const testFishing = ()=>{
                             venue?.imgdata?.map(img => <img onClick={() => setViewImg(img)} className='w-24 border-2 cursor-pointer border-red-300' src={'https://' + img} alt="" />)
                         }
                     </div>
-                   
+
                 </div>
                 <div className=''>
                     <h2 className='text-2xl font-bold text-blue-900'>{venue.eventTitle} <button className='bg-orange-500 px-5 text-xs rounded-3xl uppercase text-white'>{venue.status}</button></h2>
@@ -99,7 +134,7 @@ const testFishing = ()=>{
                     </div>
 
 
-                   
+
 
                     {/* <h3>{venue.allFishWeight}</h3>
                 <h3>{venue.allFishprice}</h3> */}
@@ -124,18 +159,22 @@ const testFishing = ()=>{
                     </div>
                     <h3 className='my-5 text-sm'>How to Go : {venue.how_to_go}</h3>
 
-                   
+                    <div>
+                        <h4>Start Time : <span className='bg-gradient-to-tr from-blue-900 to-teal-700 px-5 py-1 text-white text-sm rounded-full'>{ venue?.fishingDay ? venue?.fishingDay[0] : ''} <TrendingFlatIcon/>  {venue.startTime}</span></h4> 
+                        <h4>to</h4> 
+                        <h4>End Time : <span className='bg-gradient-to-tr from-blue-900 to-teal-700 px-5 py-1 text-white text-sm rounded-full'>{ venue?.fishingDay ? venue?.fishingDay[venue?.fishingDay.length-1] : ''} <TrendingFlatIcon/> {venue.endTime}</span></h4> 
+                    </div>
                 </div>
             </div>
 
 
             <div className='flex gap-10 p-5'>
                 {/* second element  */}
-                <video  controls poster={Poster} className='w-1/3' src={'https://' + venue.video}></video>
+                <video controls poster={Poster} className='w-1/3' src={'https://' + venue.video}></video>
 
 
                 <div className='w-2/3'>
-                <h3 className='my-4 text-blue-950'>Feature</h3>
+                    <h3 className='my-4 text-blue-950'>Feature</h3>
                     <hr />
                     <div className='grid grid-cols-2 gap-5'>
 
@@ -149,8 +188,8 @@ const testFishing = ()=>{
                             <span class="info_item_content"><span>Targeted Fish :  {venue.targetFish}</span></span>
                         </div>
 
-                        
-                        <div class="info_item">
+
+                        {/* <div class="info_item">
                             <span class="info_item_img">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="w-6 h-6">
@@ -160,7 +199,7 @@ const testFishing = ()=>{
                             <span class="info_item_content"><span>Start Time:  {venue.startTime}</span></span>
                         </div>
 
-                        
+
                         <div class="info_item">
                             <span class="info_item_img">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -169,9 +208,9 @@ const testFishing = ()=>{
                                 </svg>
                             </span>
                             <span class="info_item_content"><span>End Time : {venue.endTime}</span></span>
-                        </div>
+                        </div> */}
 
-                        
+
                         <div class="info_item">
                             <span class="info_item_img">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -182,7 +221,7 @@ const testFishing = ()=>{
                             <span class="info_item_content"><span>Total Sit:  {venue.totalSeat}</span></span>
                         </div>
 
-                        
+
                         <div class="info_item">
                             <span class="info_item_img">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -193,7 +232,7 @@ const testFishing = ()=>{
                             <span class="info_item_content"><span>Water Lavel :  {venue.waterLabel}</span></span>
                         </div>
 
-                        
+
                         <div class="info_item">
                             <span class="info_item_img">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -242,7 +281,7 @@ const testFishing = ()=>{
             </div>
 
             <div className='flex gap-10 p-5'>
-               
+
 
                 <iframe src={venue.mapLink} className='w-1/3 mt-10 block' height="250" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
 
@@ -251,49 +290,82 @@ const testFishing = ()=>{
                     <button className='bg-gradient-to-tr my-2 from-teal-500 to-green-400 px-5 py-1 mx-2 rounded text-white text-sm'>Total Price : {venue.allFishprice}</button>
 
                     <table className='text-sm '>
-                    <tr>
-                        <th>Name</th>
-                        {/* <th>Average</th> */}
-                        <th className='text-sm'>0 - 0.5 </th>
-                        <th className='text-sm'>0.5 - 1.25 </th>
-                        <th className='text-sm'>1.25 - 2.25 </th>
-                        <th className='text-sm'>2.25 - 3.25 </th>
-                        <th className='text-sm'>3.25 - 5.0 </th>
-                        <th className='text-sm'>5++ (kg)</th>
-                        <th className='text-sm'>w</th>
-                        <th className='text-sm'>P</th>
-                    </tr>
+                        <tr>
+                            <th>Name</th>
+                            {/* <th>Average</th> */}
+                            <th className='text-sm'>0 - 0.5 </th>
+                            <th className='text-sm'>0.5 - 1.25 </th>
+                            <th className='text-sm'>1.25 - 2.25 </th>
+                            <th className='text-sm'>2.25 - 3.25 </th>
+                            <th className='text-sm'>3.25 - 5.0 </th>
+                            <th className='text-sm'>5++ (kg)</th>
+                            <th className='text-sm'>w</th>
+                            <th className='text-sm'>P</th>
+                        </tr>
 
-                    {
-                        venue?.fish_chart?.map(fish => <tr>
-                            <td>{fish.fish_name}</td>
-                            {/* <td>{fish.fish_average}</td> */}
-                            <td>{fish.one_Kg}</td>
-                            <td>{fish.two_Kg}</td>
-                            <td>{fish.three_Kg}</td>
-                            <td>{fish.four_Kg}</td>
-                            <td>{fish.five_Kg}</td>
-                            <td>{fish.six_Kg}</td>
-                            <td>{fish.totalWeight}</td>
-                            <td>{fish.total_p_for_one_fish}</td>
-                        </tr>)
-                    }
+                        {
+                            venue?.fish_chart?.map(fish => <tr>
+                                <td>{fish.fish_name}</td>
+                                {/* <td>{fish.fish_average}</td> */}
+                                <td>{fish.one_Kg}</td>
+                                <td>{fish.two_Kg}</td>
+                                <td>{fish.three_Kg}</td>
+                                <td>{fish.four_Kg}</td>
+                                <td>{fish.five_Kg}</td>
+                                <td>{fish.six_Kg}</td>
+                                <td>{fish.totalWeight}</td>
+                                <td>{fish.total_p_for_one_fish}</td>
+                            </tr>)
+                        }
 
-                </table>
+                    </table>
                 </div>
-                
+
             </div>
 
 
-            <div className='p-5'>
-                <button onClick={testFishing} className='bg-blue-900 px-3 py-1 text-sm text-white rounded-sm'>Request a catch & release test Fishing</button>
+            <div className='p-5 flex gap-5'>
+                <button onClick={testFishing} className='bg-blue-900 px-3 py-1 text-sm text-white rounded-sm'>Accept Test Request</button>
+                <button onClick={()=> setModal('block')} className='bg-blue-900 px-3 py-1 text-sm text-white rounded-sm'>Reject</button>
+                {/* onClick={reject} */}
+            </div>
+
+
+            <div class={`relative z-10 ${modal}`} aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                
+                <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+
+                <div class="fixed inset-0 z-10 overflow-y-auto">
+                    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                        <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                            <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                                <div class="">
+                                    <div class="flex gap-4  my-4">
+                                       
+                                    <div className='bg-blue-100 flex items-center justify-center rounded-full text-blue-950 h-8 w-8'>
+                                    <EditNoteIcon />
+                                    </div>
+                                    <h3 class="text-base font-semibold leading-6 text-gray-900" id="modal-title">Special note Or Feedback</h3>
+                                    </div>
+                                    <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                       
+                                        <div class="mt-2 w-full">
+                                            <textarea  id="message" class="w-full px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset rounded"  rows='5'></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 gap-3">
+                                <button type="button" onClick={reject} class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-900 px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Submit</button>
+                                <button type="button" onClick={()=> setModal('hidden')} class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </main>
     );
 };
 
-export default SingleVenue;
 
-
-
-
+export default SingleTestVenue;

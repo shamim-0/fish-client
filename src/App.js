@@ -22,6 +22,11 @@ import AddVenueCategory from './Dashboard/AddVenueCategory';
 import AddVenueSubCategory from './Dashboard/AddVenueSubCategory';
 import VenueList from './Dashboard/VenueList';
 import SingleVenue from './Dashboard/SingleVenue';
+import VenueRequest from './Dashboard/VenueRequest';
+import SingleTestVenue from './Dashboard/SingleTestVenue';
+import GameFish from './Dashboard/GameFish';
+import GameFishCategory from './Dashboard/GameFishCategory';
+import GameFishView from './FrontEnd/GameFishView';
 
 function App() {
   return (
@@ -37,6 +42,7 @@ function App() {
 
         <Route path='/dashboard/list-user/user/:_id' element={<SingleViewUser/>}></Route>
         <Route path='/dashboard/venue/:_id' element={<SingleVenue/>}></Route>
+        <Route path='/dashboard/venue-test-request/:_id' element={<SingleTestVenue/>}></Route>
 
 
         <Route path='/dashboard' element={<Dashboard/>}>
@@ -51,6 +57,10 @@ function App() {
           <Route path='/dashboard/venue-list' element={<VenueList/>}></Route>
           <Route path='/dashboard/list-user' element={<UserList/>}></Route>
           <Route path='/dashboard/add-fish' element={<AddFish/>}></Route>
+          <Route path='/dashboard/test-venue-request' element={<VenueRequest/>}></Route>
+          <Route path='/dashboard/game-fish' element={<GameFish/>}></Route>
+          <Route path='/dashboard/game-fish-category' element={<GameFishCategory/>}></Route>
+          <Route path='/dashboard/view-game-fish' element={<GameFishView/>}></Route>
         </Route>
         <Route path='*' element={<NotFound/>}></Route>
       </Routes>
